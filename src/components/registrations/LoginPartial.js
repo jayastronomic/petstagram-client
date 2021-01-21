@@ -56,7 +56,7 @@ class LoginPartial extends Component {
           className={
             this.state.password.length >= 6 &&
             this.state.usernameOrEmail.length >= 1
-              ? "bg-blue-500 py-2 rounded font-bold text-white text-sm focus:outline-none"
+              ? "bg-blue-500 py-2 rounded font-bold text-white text-sm focus:outline-none cursor-pointer"
               : "bg-blue-200 py-2 rounded font-bold text-white text-sm focus:outline-none"
           }
           type="submit"

@@ -16,8 +16,11 @@ const Login = () => {
       </div>
       <div className="flex border border-gray-300 w-80 justify-center text-sm py-4 bg-white">
         <p>
-          Don't have an account?{" "}
-          <Link className="text-blue-500 font-bold"> Sign up </Link>
+          Don't have an account?
+          <Link to="/signup" className="text-blue-500 font-bold">
+            {" "}
+            Sign up{" "}
+          </Link>
         </p>
       </div>
       <Footer />
