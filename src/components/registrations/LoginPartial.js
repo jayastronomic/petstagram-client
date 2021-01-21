@@ -26,7 +26,7 @@ class LoginPartial extends Component {
 
   render() {
     return (
-      <form className="flex flex-col space-y-2 mt-12 w-3/4">
+      <form className="flex flex-col space-y-4 mt-12 w-3/4">
         <input
           name="usernameOrEmail"
           value={this.state.usernameOrEmail}
