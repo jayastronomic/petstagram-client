@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "../../styles/LoginPartial.css";
 
+const API = "http://localhost:3001/api/v1/login";
+
 class LoginPartial extends Component {
   constructor() {
     super();
@@ -11,10 +13,75 @@ class LoginPartial extends Component {
     };
   }
 
+  redirect = () => {
+    this.props.history.push("/home");
+  };
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (this.state.usernameOrEmail.includes("@")) {
+      let user = {
+        user: {
+          email: this.state.usernameOrEmail,
+          password: this.state.password,
+        },
+      };
+
+      const payload = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        credentials: "include",
+      };
+
+      fetch(API, payload)
+        .then((resp) => resp.json())
+        .then((resObj) => {
+          if (resObj.logged_in) {
+            this.props.handleLogin(resObj);
+            this.redirect();
+          }
+        });
+
+      this.setState({
+        usernameOrEmail: "",
+        password: "",
+        showPassword: false,
+      });
+    } else {
+      let user = {
+        user: {
+          username: this.state.usernameOrEmail,
+          password: this.state.password,
+        },
+      };
+      const payload = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        credentials: "include",
+      };
+      fetch(API, payload)
+        .then((resp) => resp.json())
+        .then((resObj) => this.props.handleLogin(resObj));
+
+      this.setState({
+        usernameOrEmail: "",
+        password: "",
+        showPassword: false,
+      });
+    }
   };
 
   showPassword = (e) => {
@@ -26,7 +93,10 @@ class LoginPartial extends Component {
 
   render() {
     return (
-      <form className="flex flex-col space-y-4 mt-12 w-3/4">
+      <form
+        onSubmit={this.handleSubmit}
+        className="flex flex-col space-y-4 mt-12 w-3/4"
+      >
         <input
           name="usernameOrEmail"
           value={this.state.usernameOrEmail}

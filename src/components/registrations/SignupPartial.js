@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
+const API = "http://localhost:3001/api/v1/users";
 
 class SignupPartial extends Component {
   constructor() {
@@ -9,6 +12,7 @@ class SignupPartial extends Component {
       fullName: "",
       username: "",
       password: "",
+      passwordConfirmation: "",
     };
   }
 
@@ -18,9 +22,55 @@ class SignupPartial extends Component {
     });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    let newUser = {
+      user: {
+        email: this.state.email,
+        full_name: this.state.fullName,
+        username: this.state.username,
+        password: this.state.password,
+        password_confirmation: this.state.passwordConfirmation,
+      },
+    };
+
+    const payload = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+      credentials: "include",
+    };
+
+    fetch(API, payload)
+      .then((resp) => resp.json())
+      .then((resObj) => {
+        if (resObj.status === "SUCCESS") {
+          console.log(resObj);
+          this.props.handleLogin(resObj);
+        } else {
+          console.log(resObj);
+        }
+      })
+      .catch((err) => console.log(err));
+
+    this.setState({
+      email: "",
+      fullName: "",
+      username: "",
+      password: "",
+      passwordConfirmation: "",
+    });
+  };
+
   render() {
     return (
-      <form className="flex flex-col pt-8 space-y-2 w-3/4 pb-8">
+      <form
+        onSubmit={this.handleSubmit}
+        className="flex flex-col pt-8 space-y-2 w-3/4 pb-8"
+      >
         <input
           onChange={this.handleChange}
           name="email"
@@ -48,6 +98,15 @@ class SignupPartial extends Component {
           value={this.state.password}
           className="text-xs border border-gray-300 py-2 px-2 rounded focus:outline-none focus:border-gray-400 bg-gray-100"
           placeholder="Password"
+          type="password"
+        />
+        <input
+          onChange={this.handleChange}
+          name="passwordConfirmation"
+          value={this.state.passwordConfirmation}
+          className="text-xs border border-gray-300 py-2 px-2 rounded focus:outline-none focus:border-gray-400 bg-gray-100"
+          placeholder="Confirm Password"
+          type="password"
         />
         <input
           className={
