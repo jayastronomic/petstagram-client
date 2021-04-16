@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 const API = "http://localhost:3001/api/v1/users";
@@ -15,6 +14,10 @@ class SignupPartial extends Component {
       passwordConfirmation: "",
     };
   }
+
+  redirect = () => {
+    this.props.history.push("/home");
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -63,6 +66,8 @@ class SignupPartial extends Component {
       password: "",
       passwordConfirmation: "",
     });
+
+    this.redirect();
   };
 
   render() {

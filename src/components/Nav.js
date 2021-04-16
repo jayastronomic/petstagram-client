@@ -1,35 +1,80 @@
 import React from "react";
 
+import PostModal from "./PostModal";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const Nav = () => {
+import { openPostModal } from "../actions/postActions";
+
+const API = "http://localhost:3001/api/v1/logout";
+
+const Nav = (props) => {
+  const redirect = () => {
+    props.history.push("/");
+  };
+
+  const logOut = (e) => {
+    e.preventDefault();
+
+    fetch(API, { method: "DELETE", credentials: "include" })
+      .then((resp) => resp.json())
+      .then((resObj) => props.handleLogout(resObj))
+      .catch((err) => console.log(err));
+
+    redirect();
+  };
+
+  const openPostModal = () => {};
+
   return (
-    <nav className="flex justify-around border-b p-2 items-center lg:-space-x-72">
-      <div className="flex">
-        <Link to="/home">
-          <h1 className="pacifico text-2xl active:text-gray-300 cursor-pointer">
-            Petstagram&#x1F43E;
-          </h1>
-        </Link>
-      </div>
-      <div>
-        <input
-          className="focus:outline-none border border-gray-300 rounded bg-gray-100 text-center px-6 text-sm"
-          placeholder="Search"
-        />
-      </div>
-      <div className="flex space-x-6 items-center">
-        <i className="fas fa-camera fa-lg"></i>
-        <i className="fas fa-home fa-lg "></i>
-        <i className="fab fa-facebook-messenger fa-lg"></i>
-        <i className="far fa-compass fa-lg"></i>
-        <i className="far fa-heart fa-lg"></i>
-        <i className="far fa-user-circle fa-lg"></i>
-        <button className="p-2 bg-blue-400 text-white rounded">Log Off</button>
-      </div>
-    </nav>
+    <>
+      <nav className="flex justify-around border-b p-2 items-center lg:-space-x-72">
+        <div className="flex">
+          <Link to="/home">
+            <h1 className="pacifico text-2xl active:text-gray-300 cursor-pointer">
+              Postagram
+            </h1>
+          </Link>
+        </div>
+        <div>
+          <input
+            className="focus:outline-none border border-gray-300 rounded bg-gray-100 text-center px-6 text-sm"
+            placeholder="Search"
+          />
+        </div>
+        <div className="flex space-x-6 items-center">
+          <i
+            onClick={() => props.openPostModal(true)}
+            className="cursor-pointer fas fa-edit fa-lg"
+          ></i>
+          <i className="cursor-pointer fas fa-home fa-lg "></i>
+          <i className="cursor-pointer fab fa-facebook-messenger fa-lg"></i>
+          <i className="cursor-pointer far fa-compass fa-lg"></i>
+          <i className="cursor-pointer far fa-heart fa-lg"></i>
+          <i className="cursor-pointer far fa-user-circle fa-lg"></i>
+          <button
+            onClick={logOut}
+            className="p-2 bg-blue-400 text-white rounded focus:outline-none"
+          >
+            Log Off {props.username}
+          </button>
+        </div>
+      </nav>
+      {props.postModal && <PostModal />}
+    </>
   );
 };
 
-export default Nav;
+const mapStateToProps = (state) => {
+  return {
+    username: state.authUser.username,
+    postModal: state.postModal,
+  };
+};
+
+const mapDispatchToProps = {
+  openPostModal,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

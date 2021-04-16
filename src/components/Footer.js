@@ -17,7 +17,7 @@ const Footer = () => {
         <Link>Locations</Link>
       </div>
       <div className="flex justify-center text-xs text-gray-400">
-        © 2021 Petstagram from Jayastronomic
+        © 2021 Postagram from Jayastronomic
       </div>
     </div>
   );

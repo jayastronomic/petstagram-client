@@ -48,7 +48,9 @@ class App extends Component {
         <Route
           exact
           path="/signup"
-          render={() => <Signup handleLogin={this.handleLogin} />}
+          render={(props) => (
+            <Signup history={props.history} handleLogin={this.handleLogin} />
+          )}
         />
         <Route
           exact
@@ -60,9 +62,9 @@ class App extends Component {
         <Route
           exact
           path="/home"
-          render={() => (
+          render={(props) => (
             <>
-              <Nav />
+              <Nav history={props.history} handleLogout={this.handleLogout} />
               <Home />
             </>
           )}
