@@ -21,10 +21,10 @@ class Home extends Component {
   render() {
     if (this.props.posts.length > 0) {
       return (
-        <div className="flex h-full">
-          <div className="w-1/4 h-screen bg-gray-200"></div>
+        <div className="flex h-screen">
+          <div className="w-1/4 h-screen bg-gray-200 overflow-hidden"></div>
           <PostsContainer posts={this.props.posts} />
-          <div className="w-1/4 h-screen bg-gray-200"></div>
+          <div className="w-1/4 h-screen bg-gray-200 overflow-hidden"></div>
           {/* <PostsContainer posts={this.props.posts} /> */}
         </div>
       );

@@ -5,16 +5,16 @@ export const fetchPostsSuccess = (array) => {
   };
 };
 
-export const openPostModal = (bool) => {
+export const togglePostModal = (bool) => {
   return {
-    type: "OPEN_POST_MODAL",
+    type: "TOGGLE_POST_MODAL",
     bool: bool,
   };
 };
 
-export const closePostModal = (bool) => {
+export const createPostSuccess = (obj) => {
   return {
-    type: "CLOSE_POST_MODAL",
-    bool: bool,
+    type: "CREATE_POST_SUCCESS",
+    newPost: obj,
   };
 };

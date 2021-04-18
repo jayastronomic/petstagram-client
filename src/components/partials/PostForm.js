@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { closePostModal } from "../../actions/postActions";
+import { togglePostModal, createPostSuccess } from "../../actions/postActions";
 
 const API = "http://localhost:3001/api/v1/posts";
 
@@ -37,8 +37,12 @@ class PostForm extends Component {
 
     fetch(API, payload)
       .then((resp) => resp.json())
-      .then((resObj) => console.log(resObj))
+      .then((resObj) => {
+        this.props.createPostSuccess(resObj);
+      })
       .catch((err) => console.log(err));
+
+    this.props.togglePostModal(false);
   };
 
   render() {
@@ -46,7 +50,7 @@ class PostForm extends Component {
       <form onSubmit={this.handleSubmit} className="pt-2">
         <div className="border-b-2 border-blue-400 pl-2 text-xl ">
           <span
-            onClick={() => this.props.closePostModal(false)}
+            onClick={() => this.props.togglePostModal(false)}
             className="text-blue-400 font-bold cursor-pointer"
           >
             X
@@ -73,6 +77,6 @@ class PostForm extends Component {
   }
 }
 
-const mapDispatchToProps = { closePostModal };
+const mapDispatchToProps = { togglePostModal, createPostSuccess };
 
 export default connect(null, mapDispatchToProps)(PostForm);

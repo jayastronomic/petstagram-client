@@ -5,7 +5,7 @@ import PostModal from "./PostModal";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { openPostModal } from "../actions/postActions";
+import { togglePostModal } from "../actions/postActions";
 
 const API = "http://localhost:3001/api/v1/logout";
 
@@ -25,8 +25,6 @@ const Nav = (props) => {
     redirect();
   };
 
-  const openPostModal = () => {};
-
   return (
     <>
       <nav className="flex justify-around border-b p-2 items-center lg:-space-x-72">
@@ -45,7 +43,7 @@ const Nav = (props) => {
         </div>
         <div className="flex space-x-6 items-center">
           <i
-            onClick={() => props.openPostModal(true)}
+            onClick={() => props.togglePostModal(true)}
             className="cursor-pointer fas fa-edit fa-lg"
           ></i>
           <i className="cursor-pointer fas fa-home fa-lg "></i>
@@ -74,7 +72,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  openPostModal,
+  togglePostModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);
