@@ -6,6 +6,7 @@ import Login from "./components/registrations/Login";
 import Signup from "./components/registrations/Signup";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
+import Profile from "./components/Profile";
 
 import {
   fetchAuthUserSuccess,
@@ -17,8 +18,10 @@ const API = "http://localhost:3001/api/v1/logged_in";
 
 class App extends Component {
   handleLogin = (obj) => {
-    this.props.fetchAuthUserSuccess(obj.user);
-    this.props.loggedIn(obj.logged_in);
+    this.props.fetchAuthUserSuccess(obj);
+    if (obj) {
+      this.props.loggedIn(true);
+    }
   };
 
   handleLogout = (obj) => {
@@ -30,7 +33,7 @@ class App extends Component {
     fetch(API, { credentials: "include" })
       .then((resp) => resp.json())
       .then((obj) => {
-        if (obj.logged_in) {
+        if (obj) {
           this.handleLogin(obj);
         } else {
           this.handleLogout(obj);
@@ -66,6 +69,16 @@ class App extends Component {
             <>
               <Nav history={props.history} handleLogout={this.handleLogout} />
               <Home />
+            </>
+          )}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={(props) => (
+            <>
+              <Nav history={props.history} handleLogout={this.handleLogout} />
+              <Profile user={this.props.authUser} />
             </>
           )}
         />

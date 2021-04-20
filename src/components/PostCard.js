@@ -8,10 +8,10 @@ const PostCard = (props) => {
       </div>
       <div className="p-2 flex flex-col ">
         <div className="pl-2 text-gray-500">@{props.post_user}</div>
-        <div className=" break-all">
-          <p className="pl-2">{props.content}</p>
-        </div>
-        <div className="flex justify-center pt-4 space-x-36 items-center pl-2">
+
+        <p className="pl-2 break-all">{props.content}</p>
+
+        <div className="flex pt-4 space-x-36 items-center pl-2">
           <i class="far fa-comment text-gray-500"></i>
           <i class="fas fa-retweet text-gray-500"></i>
           <i class="far fa-heart text-gray-500"></i>
